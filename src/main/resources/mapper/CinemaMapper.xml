@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.mapper.CinemaMapper">
+  <resultMap id="BaseResultMap" type="com.chris.bean.po.Cinema">
+    <id column="cma_id" jdbcType="INTEGER" property="cmaId" />
+    <result column="cma_name" jdbcType="VARCHAR" property="cmaName" />
+    <result column="cma_address" jdbcType="VARCHAR" property="cmaAddress" />
+    <result column="cma_phone" jdbcType="VARCHAR" property="cmaPhone" />
+    <result column="cma_sepcial" jdbcType="VARCHAR" property="cmaSepcial" />
+    <result column="cma_service" jdbcType="VARCHAR" property="cmaService" />
+    <result column="cma_imgs" jdbcType="VARCHAR" property="cmaImgs" />
+    <result column="cma_cost" jdbcType="INTEGER" property="cmaCost" />
+    <result column="cma_away" jdbcType="VARCHAR" property="cmaAway" />
+    <result column="cma_sort" jdbcType="TINYINT" property="cmaSort" />
+    <result column="cma_url" jdbcType="VARCHAR" property="cmaUrl" />
+    <result column="cma_service_query" jdbcType="VARCHAR" property="cmaServiceQuery" />
+    <result column="cma_halls_query" jdbcType="VARCHAR" property="cmaHallsQuery" />
+    <result column="cma_relation" jdbcType="VARCHAR" property="cmaRelation" />
+    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
+    <result column="cma_enable" jdbcType="TINYINT" property="cmaEnable" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    cma_id, cma_name, cma_address, cma_phone, cma_sepcial, cma_service, cma_imgs, cma_cost, 
+    cma_away, cma_sort, cma_url, cma_service_query, cma_halls_query, cma_relation, brand_id, 
+    cma_enable
+  </sql>
+  <select id="selectByExample" parameterType="com.chris.bean.po.CinemaExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cinema
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cinema
+    where cma_id = #{cmaId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cinema
+    where cma_id = #{cmaId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chris.bean.po.CinemaExample">
+    delete from cinema
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chris.bean.po.Cinema">
+    insert into cinema (cma_id, cma_name, cma_address, 
+      cma_phone, cma_sepcial, cma_service, 
+      cma_imgs, cma_cost, cma_away, 
+      cma_sort, cma_url, cma_service_query, 
+      cma_halls_query, cma_relation, brand_id, 
+      cma_enable)
+    values (#{cmaId,jdbcType=INTEGER}, #{cmaName,jdbcType=VARCHAR}, #{cmaAddress,jdbcType=VARCHAR}, 
+      #{cmaPhone,jdbcType=VARCHAR}, #{cmaSepcial,jdbcType=VARCHAR}, #{cmaService,jdbcType=VARCHAR}, 
+      #{cmaImgs,jdbcType=VARCHAR}, #{cmaCost,jdbcType=INTEGER}, #{cmaAway,jdbcType=VARCHAR}, 
+      #{cmaSort,jdbcType=TINYINT}, #{cmaUrl,jdbcType=VARCHAR}, #{cmaServiceQuery,jdbcType=VARCHAR}, 
+      #{cmaHallsQuery,jdbcType=VARCHAR}, #{cmaRelation,jdbcType=VARCHAR}, #{brandId,jdbcType=INTEGER}, 
+      #{cmaEnable,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chris.bean.po.Cinema">
+    insert into cinema
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cmaId != null">
+        cma_id,
+      </if>
+      <if test="cmaName != null">
+        cma_name,
+      </if>
+      <if test="cmaAddress != null">
+        cma_address,
+      </if>
+      <if test="cmaPhone != null">
+        cma_phone,
+      </if>
+      <if test="cmaSepcial != null">
+        cma_sepcial,
+      </if>
+      <if test="cmaService != null">
+        cma_service,
+      </if>
+      <if test="cmaImgs != null">
+        cma_imgs,
+      </if>
+      <if test="cmaCost != null">
+        cma_cost,
+      </if>
+      <if test="cmaAway != null">
+        cma_away,
+      </if>
+      <if test="cmaSort != null">
+        cma_sort,
+      </if>
+      <if test="cmaUrl != null">
+        cma_url,
+      </if>
+      <if test="cmaServiceQuery != null">
+        cma_service_query,
+      </if>
+      <if test="cmaHallsQuery != null">
+        cma_halls_query,
+      </if>
+      <if test="cmaRelation != null">
+        cma_relation,
+      </if>
+      <if test="brandId != null">
+        brand_id,
+      </if>
+      <if test="cmaEnable != null">
+        cma_enable,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cmaId != null">
+        #{cmaId,jdbcType=INTEGER},
+      </if>
+      <if test="cmaName != null">
+        #{cmaName,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaAddress != null">
+        #{cmaAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaPhone != null">
+        #{cmaPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaSepcial != null">
+        #{cmaSepcial,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaService != null">
+        #{cmaService,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaImgs != null">
+        #{cmaImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaCost != null">
+        #{cmaCost,jdbcType=INTEGER},
+      </if>
+      <if test="cmaAway != null">
+        #{cmaAway,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaSort != null">
+        #{cmaSort,jdbcType=TINYINT},
+      </if>
+      <if test="cmaUrl != null">
+        #{cmaUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaServiceQuery != null">
+        #{cmaServiceQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaHallsQuery != null">
+        #{cmaHallsQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaRelation != null">
+        #{cmaRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="cmaEnable != null">
+        #{cmaEnable,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chris.bean.po.CinemaExample" resultType="java.lang.Long">
+    select count(*) from cinema
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cinema
+    <set>
+      <if test="record.cmaId != null">
+        cma_id = #{record.cmaId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cmaName != null">
+        cma_name = #{record.cmaName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmaAddress != null">
+        cma_address = #{record.cmaAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmaPhone != null">
+        cma_phone = #{record.cmaPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmaSepcial != null">
+        cma_sepcial = #{record.cmaSepcial,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmaService != null">
+        cma_service = #{record.cmaService,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmaImgs != null">
+        cma_imgs = #{record.cmaImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmaCost != null">
+        cma_cost = #{record.cmaCost,jdbcType=INTEGER},
+      </if>
+      <if test="record.cmaAway != null">
+        cma_away = #{record.cmaAway,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmaSort != null">
+        cma_sort = #{record.cmaSort,jdbcType=TINYINT},
+      </if>
+      <if test="record.cmaUrl != null">
+        cma_url = #{record.cmaUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmaServiceQuery != null">
+        cma_service_query = #{record.cmaServiceQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmaHallsQuery != null">
+        cma_halls_query = #{record.cmaHallsQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmaRelation != null">
+        cma_relation = #{record.cmaRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandId != null">
+        brand_id = #{record.brandId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cmaEnable != null">
+        cma_enable = #{record.cmaEnable,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cinema
+    set cma_id = #{record.cmaId,jdbcType=INTEGER},
+      cma_name = #{record.cmaName,jdbcType=VARCHAR},
+      cma_address = #{record.cmaAddress,jdbcType=VARCHAR},
+      cma_phone = #{record.cmaPhone,jdbcType=VARCHAR},
+      cma_sepcial = #{record.cmaSepcial,jdbcType=VARCHAR},
+      cma_service = #{record.cmaService,jdbcType=VARCHAR},
+      cma_imgs = #{record.cmaImgs,jdbcType=VARCHAR},
+      cma_cost = #{record.cmaCost,jdbcType=INTEGER},
+      cma_away = #{record.cmaAway,jdbcType=VARCHAR},
+      cma_sort = #{record.cmaSort,jdbcType=TINYINT},
+      cma_url = #{record.cmaUrl,jdbcType=VARCHAR},
+      cma_service_query = #{record.cmaServiceQuery,jdbcType=VARCHAR},
+      cma_halls_query = #{record.cmaHallsQuery,jdbcType=VARCHAR},
+      cma_relation = #{record.cmaRelation,jdbcType=VARCHAR},
+      brand_id = #{record.brandId,jdbcType=INTEGER},
+      cma_enable = #{record.cmaEnable,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chris.bean.po.Cinema">
+    update cinema
+    <set>
+      <if test="cmaName != null">
+        cma_name = #{cmaName,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaAddress != null">
+        cma_address = #{cmaAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaPhone != null">
+        cma_phone = #{cmaPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaSepcial != null">
+        cma_sepcial = #{cmaSepcial,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaService != null">
+        cma_service = #{cmaService,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaImgs != null">
+        cma_imgs = #{cmaImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaCost != null">
+        cma_cost = #{cmaCost,jdbcType=INTEGER},
+      </if>
+      <if test="cmaAway != null">
+        cma_away = #{cmaAway,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaSort != null">
+        cma_sort = #{cmaSort,jdbcType=TINYINT},
+      </if>
+      <if test="cmaUrl != null">
+        cma_url = #{cmaUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaServiceQuery != null">
+        cma_service_query = #{cmaServiceQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaHallsQuery != null">
+        cma_halls_query = #{cmaHallsQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaRelation != null">
+        cma_relation = #{cmaRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="cmaEnable != null">
+        cma_enable = #{cmaEnable,jdbcType=TINYINT},
+      </if>
+    </set>
+    where cma_id = #{cmaId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chris.bean.po.Cinema">
+    update cinema
+    set cma_name = #{cmaName,jdbcType=VARCHAR},
+      cma_address = #{cmaAddress,jdbcType=VARCHAR},
+      cma_phone = #{cmaPhone,jdbcType=VARCHAR},
+      cma_sepcial = #{cmaSepcial,jdbcType=VARCHAR},
+      cma_service = #{cmaService,jdbcType=VARCHAR},
+      cma_imgs = #{cmaImgs,jdbcType=VARCHAR},
+      cma_cost = #{cmaCost,jdbcType=INTEGER},
+      cma_away = #{cmaAway,jdbcType=VARCHAR},
+      cma_sort = #{cmaSort,jdbcType=TINYINT},
+      cma_url = #{cmaUrl,jdbcType=VARCHAR},
+      cma_service_query = #{cmaServiceQuery,jdbcType=VARCHAR},
+      cma_halls_query = #{cmaHallsQuery,jdbcType=VARCHAR},
+      cma_relation = #{cmaRelation,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      cma_enable = #{cmaEnable,jdbcType=TINYINT}
+    where cma_id = #{cmaId,jdbcType=INTEGER}
+  </update>
+</mapper>

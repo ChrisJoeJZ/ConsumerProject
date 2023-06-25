@@ -1,0 +1,66 @@
+spring:
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/cateyes_data?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  # Redis配置
+  redis:
+    # Redis部署Ip地址
+    host: 192.168.30.101
+    # Redis监听端口
+    port: 6379
+    # Redis登录密码
+    password:
+    #redis的连接超时是按
+    connect-timeout: 2000
+    #redis的命令超时时间
+    timeout: 2000
+
+  # kafka 配置
+  kafka:
+    # kafka 服务节点网络域
+    bootstrap-servers: 192.168.30.101:9092
+    # 生产者 配置
+    producer:
+      # 重试次数
+      retries: 3
+      # 批量发送数据大小
+      batch-size: 16384
+      # 缓冲数据大小
+      buffer-memory: 33554432
+      # 回执数
+      acks: 1
+      # key数据 对象序列化 类签名
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # value数据 对象序列化 类签名
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    # 消费者 配置
+    consumer:
+      # 消费者分组id
+      group-id: group-01
+      # 启用自动提交回执
+      enable-auto-commit: false
+      # 重置消费队列指针策略
+      auto-offset-reset: earliest
+      # key数据 对象反序列化 类签名
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      # value数据 对象反序列化 类签名
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      # 队列池中的最大记录数
+      max-poll-records: 500
+    # 监听器 配置
+    listener:
+      # 回执模式：手动回执模式
+      ack-mode: MANUAL_IMMEDIATE
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  configuration:
+    # 是否开启驼峰映射，默认是true
+    map-underscore-to-camel-case: true
+    # 开启查询日志
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

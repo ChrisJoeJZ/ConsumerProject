@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.mapper.FilmMapper">
+  <resultMap id="BaseResultMap" type="com.chris.bean.po.Film">
+    <id column="film_id" jdbcType="INTEGER" property="filmId" />
+    <result column="film_real_name" jdbcType="VARCHAR" property="filmRealName" />
+    <result column="film_name" jdbcType="VARCHAR" property="filmName" />
+    <result column="film_desc" jdbcType="VARCHAR" property="filmDesc" />
+    <result column="film_avat" jdbcType="VARCHAR" property="filmAvat" />
+    <result column="film_imgs" jdbcType="VARCHAR" property="filmImgs" />
+    <result column="film_show_time" jdbcType="DATE" property="filmShowTime" />
+    <result column="film_show_place" jdbcType="VARCHAR" property="filmShowPlace" />
+    <result column="film_timelong" jdbcType="VARCHAR" property="filmTimelong" />
+    <result column="film_end_time" jdbcType="TINYINT" property="filmEndTime" />
+    <result column="film_favorite" jdbcType="INTEGER" property="filmFavorite" />
+    <result column="film_totalcost" jdbcType="INTEGER" property="filmTotalcost" />
+    <result column="film_praise" jdbcType="DECIMAL" property="filmPraise" />
+    <result column="film_praise_star" jdbcType="TINYINT" property="filmPraiseStar" />
+    <result column="film_praise_pepole" jdbcType="VARCHAR" property="filmPraisePepole" />
+    <result column="film_advance" jdbcType="VARCHAR" property="filmAdvance" />
+    <result column="film_attribute" jdbcType="VARCHAR" property="filmAttribute" />
+    <result column="film_cate_keyword" jdbcType="VARCHAR" property="filmCateKeyword" />
+    <result column="film_region_keyword" jdbcType="VARCHAR" property="filmRegionKeyword" />
+    <result column="film_years" jdbcType="CHAR" property="filmYears" />
+    <result column="film_cate_query" jdbcType="VARCHAR" property="filmCateQuery" />
+    <result column="film_enabled" jdbcType="TINYINT" property="filmEnabled" />
+    <result column="film_region_query" jdbcType="VARCHAR" property="filmRegionQuery" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.chris.bean.po.FilmWithBLOBs">
+    <result column="film_actors" jdbcType="LONGVARCHAR" property="filmActors" />
+    <result column="film_awards" jdbcType="LONGVARCHAR" property="filmAwards" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    film_id, film_real_name, film_name, film_desc, film_avat, film_imgs, film_show_time, 
+    film_show_place, film_timelong, film_end_time, film_favorite, film_totalcost, film_praise, 
+    film_praise_star, film_praise_pepole, film_advance, film_attribute, film_cate_keyword, 
+    film_region_keyword, film_years, film_cate_query, film_enabled, film_region_query
+  </sql>
+  <sql id="Blob_Column_List">
+    film_actors, film_awards
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.chris.bean.po.FilmExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from film
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.chris.bean.po.FilmExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from film
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from film
+    where film_id = #{filmId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from film
+    where film_id = #{filmId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chris.bean.po.FilmExample">
+    delete from film
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chris.bean.po.FilmWithBLOBs">
+    insert into film (film_id, film_real_name, film_name, 
+      film_desc, film_avat, film_imgs, 
+      film_show_time, film_show_place, film_timelong, 
+      film_end_time, film_favorite, film_totalcost, 
+      film_praise, film_praise_star, film_praise_pepole, 
+      film_advance, film_attribute, film_cate_keyword, 
+      film_region_keyword, film_years, film_cate_query, 
+      film_enabled, film_region_query, film_actors, 
+      film_awards)
+    values (#{filmId,jdbcType=INTEGER}, #{filmRealName,jdbcType=VARCHAR}, #{filmName,jdbcType=VARCHAR}, 
+      #{filmDesc,jdbcType=VARCHAR}, #{filmAvat,jdbcType=VARCHAR}, #{filmImgs,jdbcType=VARCHAR}, 
+      #{filmShowTime,jdbcType=DATE}, #{filmShowPlace,jdbcType=VARCHAR}, #{filmTimelong,jdbcType=VARCHAR}, 
+      #{filmEndTime,jdbcType=TINYINT}, #{filmFavorite,jdbcType=INTEGER}, #{filmTotalcost,jdbcType=INTEGER}, 
+      #{filmPraise,jdbcType=DECIMAL}, #{filmPraiseStar,jdbcType=TINYINT}, #{filmPraisePepole,jdbcType=VARCHAR}, 
+      #{filmAdvance,jdbcType=VARCHAR}, #{filmAttribute,jdbcType=VARCHAR}, #{filmCateKeyword,jdbcType=VARCHAR}, 
+      #{filmRegionKeyword,jdbcType=VARCHAR}, #{filmYears,jdbcType=CHAR}, #{filmCateQuery,jdbcType=VARCHAR}, 
+      #{filmEnabled,jdbcType=TINYINT}, #{filmRegionQuery,jdbcType=VARCHAR}, #{filmActors,jdbcType=LONGVARCHAR}, 
+      #{filmAwards,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chris.bean.po.FilmWithBLOBs">
+    insert into film
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="filmId != null">
+        film_id,
+      </if>
+      <if test="filmRealName != null">
+        film_real_name,
+      </if>
+      <if test="filmName != null">
+        film_name,
+      </if>
+      <if test="filmDesc != null">
+        film_desc,
+      </if>
+      <if test="filmAvat != null">
+        film_avat,
+      </if>
+      <if test="filmImgs != null">
+        film_imgs,
+      </if>
+      <if test="filmShowTime != null">
+        film_show_time,
+      </if>
+      <if test="filmShowPlace != null">
+        film_show_place,
+      </if>
+      <if test="filmTimelong != null">
+        film_timelong,
+      </if>
+      <if test="filmEndTime != null">
+        film_end_time,
+      </if>
+      <if test="filmFavorite != null">
+        film_favorite,
+      </if>
+      <if test="filmTotalcost != null">
+        film_totalcost,
+      </if>
+      <if test="filmPraise != null">
+        film_praise,
+      </if>
+      <if test="filmPraiseStar != null">
+        film_praise_star,
+      </if>
+      <if test="filmPraisePepole != null">
+        film_praise_pepole,
+      </if>
+      <if test="filmAdvance != null">
+        film_advance,
+      </if>
+      <if test="filmAttribute != null">
+        film_attribute,
+      </if>
+      <if test="filmCateKeyword != null">
+        film_cate_keyword,
+      </if>
+      <if test="filmRegionKeyword != null">
+        film_region_keyword,
+      </if>
+      <if test="filmYears != null">
+        film_years,
+      </if>
+      <if test="filmCateQuery != null">
+        film_cate_query,
+      </if>
+      <if test="filmEnabled != null">
+        film_enabled,
+      </if>
+      <if test="filmRegionQuery != null">
+        film_region_query,
+      </if>
+      <if test="filmActors != null">
+        film_actors,
+      </if>
+      <if test="filmAwards != null">
+        film_awards,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="filmId != null">
+        #{filmId,jdbcType=INTEGER},
+      </if>
+      <if test="filmRealName != null">
+        #{filmRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="filmName != null">
+        #{filmName,jdbcType=VARCHAR},
+      </if>
+      <if test="filmDesc != null">
+        #{filmDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="filmAvat != null">
+        #{filmAvat,jdbcType=VARCHAR},
+      </if>
+      <if test="filmImgs != null">
+        #{filmImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="filmShowTime != null">
+        #{filmShowTime,jdbcType=DATE},
+      </if>
+      <if test="filmShowPlace != null">
+        #{filmShowPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="filmTimelong != null">
+        #{filmTimelong,jdbcType=VARCHAR},
+      </if>
+      <if test="filmEndTime != null">
+        #{filmEndTime,jdbcType=TINYINT},
+      </if>
+      <if test="filmFavorite != null">
+        #{filmFavorite,jdbcType=INTEGER},
+      </if>
+      <if test="filmTotalcost != null">
+        #{filmTotalcost,jdbcType=INTEGER},
+      </if>
+      <if test="filmPraise != null">
+        #{filmPraise,jdbcType=DECIMAL},
+      </if>
+      <if test="filmPraiseStar != null">
+        #{filmPraiseStar,jdbcType=TINYINT},
+      </if>
+      <if test="filmPraisePepole != null">
+        #{filmPraisePepole,jdbcType=VARCHAR},
+      </if>
+      <if test="filmAdvance != null">
+        #{filmAdvance,jdbcType=VARCHAR},
+      </if>
+      <if test="filmAttribute != null">
+        #{filmAttribute,jdbcType=VARCHAR},
+      </if>
+      <if test="filmCateKeyword != null">
+        #{filmCateKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="filmRegionKeyword != null">
+        #{filmRegionKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="filmYears != null">
+        #{filmYears,jdbcType=CHAR},
+      </if>
+      <if test="filmCateQuery != null">
+        #{filmCateQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="filmEnabled != null">
+        #{filmEnabled,jdbcType=TINYINT},
+      </if>
+      <if test="filmRegionQuery != null">
+        #{filmRegionQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="filmActors != null">
+        #{filmActors,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="filmAwards != null">
+        #{filmAwards,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chris.bean.po.FilmExample" resultType="java.lang.Long">
+    select count(*) from film
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <select id="selectCountByBo" resultType="java.lang.Integer">
+    select count( DISTINCT  a.film_id)
+    from film a inner join type_film_rel b on a.film_id=b.film_id
+    inner join film_flregion_rel c on a.film_id=c.film_id
+    INNER  join cate_film_rel d on a.film_id =d.film_id
+    <where>
+      <if test="filmSearchBo.filmYears!=null and filmSearchBo.filmYears.length>0">
+        film_years = #{filmSearchBo.filmYears}
+      </if>
+      <if test="filmSearchBo.typeId != null">
+        and b.type_id = #{filmSearchBo.typeId}
+      </if>
+      <if test="filmSearchBo.filmRegionId != null">
+        and c.film_re_id = #{filmSearchBo.filmRegionId}
+      </if>
+      <if test="filmSearchBo.categoryId != null">
+        and d.cate_id = #{filmSearchBo.categoryId}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByBo" resultMap="ResultMapWithBLOBs">
+    select DISTINCT  a.*
+    from film a inner join type_film_rel b on a.film_id=b.film_id
+    inner join film_flregion_rel c on a.film_id=c.film_id
+    INNER  join cate_film_rel d on a.film_id =d.film_id
+    <where>
+      <if test="filmSearchBo.filmYears!=null and filmSearchBo.filmYears.length>0">
+        film_years = #{filmSearchBo.filmYears}
+      </if>
+      <if test="filmSearchBo.typeId != null">
+        and b.type_id = #{filmSearchBo.typeId}
+      </if>
+      <if test="filmSearchBo.filmRegionId != null">
+        and c.film_re_id = #{filmSearchBo.filmRegionId}
+      </if>
+      <if test="filmSearchBo.categoryId != null">
+        and d.cate_id = #{filmSearchBo.categoryId}
+      </if>
+    </where>
+    <if test="filmSearchBo.orderColumn !=null and filmSearchBo.orderColumn.length>0">
+      order by ${filmSearchBo.orderColumn} ${filmSearchBo.orderType}
+    </if>
+    limit #{filmSearchBo.startIndex},#{filmSearchBo.pageSize}
+  </select>
+
+  <select id="selectListByCmaId" resultMap="BaseResultMap">
+      select *
+      from film f
+      join
+          (select film_id from cinema_film_rel cfr where cma_id = #{cinema_id}) t
+      on f.film_id = t.film_id
+  </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
+    update film
+    <set>
+      <if test="record.filmId != null">
+        film_id = #{record.filmId,jdbcType=INTEGER},
+      </if>
+      <if test="record.filmRealName != null">
+        film_real_name = #{record.filmRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmName != null">
+        film_name = #{record.filmName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmDesc != null">
+        film_desc = #{record.filmDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmAvat != null">
+        film_avat = #{record.filmAvat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmImgs != null">
+        film_imgs = #{record.filmImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmShowTime != null">
+        film_show_time = #{record.filmShowTime,jdbcType=DATE},
+      </if>
+      <if test="record.filmShowPlace != null">
+        film_show_place = #{record.filmShowPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmTimelong != null">
+        film_timelong = #{record.filmTimelong,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmEndTime != null">
+        film_end_time = #{record.filmEndTime,jdbcType=TINYINT},
+      </if>
+      <if test="record.filmFavorite != null">
+        film_favorite = #{record.filmFavorite,jdbcType=INTEGER},
+      </if>
+      <if test="record.filmTotalcost != null">
+        film_totalcost = #{record.filmTotalcost,jdbcType=INTEGER},
+      </if>
+      <if test="record.filmPraise != null">
+        film_praise = #{record.filmPraise,jdbcType=DECIMAL},
+      </if>
+      <if test="record.filmPraiseStar != null">
+        film_praise_star = #{record.filmPraiseStar,jdbcType=TINYINT},
+      </if>
+      <if test="record.filmPraisePepole != null">
+        film_praise_pepole = #{record.filmPraisePepole,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmAdvance != null">
+        film_advance = #{record.filmAdvance,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmAttribute != null">
+        film_attribute = #{record.filmAttribute,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmCateKeyword != null">
+        film_cate_keyword = #{record.filmCateKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmRegionKeyword != null">
+        film_region_keyword = #{record.filmRegionKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmYears != null">
+        film_years = #{record.filmYears,jdbcType=CHAR},
+      </if>
+      <if test="record.filmCateQuery != null">
+        film_cate_query = #{record.filmCateQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmEnabled != null">
+        film_enabled = #{record.filmEnabled,jdbcType=TINYINT},
+      </if>
+      <if test="record.filmRegionQuery != null">
+        film_region_query = #{record.filmRegionQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filmActors != null">
+        film_actors = #{record.filmActors,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.filmAwards != null">
+        film_awards = #{record.filmAwards,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update film
+    set film_id = #{record.filmId,jdbcType=INTEGER},
+      film_real_name = #{record.filmRealName,jdbcType=VARCHAR},
+      film_name = #{record.filmName,jdbcType=VARCHAR},
+      film_desc = #{record.filmDesc,jdbcType=VARCHAR},
+      film_avat = #{record.filmAvat,jdbcType=VARCHAR},
+      film_imgs = #{record.filmImgs,jdbcType=VARCHAR},
+      film_show_time = #{record.filmShowTime,jdbcType=DATE},
+      film_show_place = #{record.filmShowPlace,jdbcType=VARCHAR},
+      film_timelong = #{record.filmTimelong,jdbcType=VARCHAR},
+      film_end_time = #{record.filmEndTime,jdbcType=TINYINT},
+      film_favorite = #{record.filmFavorite,jdbcType=INTEGER},
+      film_totalcost = #{record.filmTotalcost,jdbcType=INTEGER},
+      film_praise = #{record.filmPraise,jdbcType=DECIMAL},
+      film_praise_star = #{record.filmPraiseStar,jdbcType=TINYINT},
+      film_praise_pepole = #{record.filmPraisePepole,jdbcType=VARCHAR},
+      film_advance = #{record.filmAdvance,jdbcType=VARCHAR},
+      film_attribute = #{record.filmAttribute,jdbcType=VARCHAR},
+      film_cate_keyword = #{record.filmCateKeyword,jdbcType=VARCHAR},
+      film_region_keyword = #{record.filmRegionKeyword,jdbcType=VARCHAR},
+      film_years = #{record.filmYears,jdbcType=CHAR},
+      film_cate_query = #{record.filmCateQuery,jdbcType=VARCHAR},
+      film_enabled = #{record.filmEnabled,jdbcType=TINYINT},
+      film_region_query = #{record.filmRegionQuery,jdbcType=VARCHAR},
+      film_actors = #{record.filmActors,jdbcType=LONGVARCHAR},
+      film_awards = #{record.filmAwards,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update film
+    set film_id = #{record.filmId,jdbcType=INTEGER},
+      film_real_name = #{record.filmRealName,jdbcType=VARCHAR},
+      film_name = #{record.filmName,jdbcType=VARCHAR},
+      film_desc = #{record.filmDesc,jdbcType=VARCHAR},
+      film_avat = #{record.filmAvat,jdbcType=VARCHAR},
+      film_imgs = #{record.filmImgs,jdbcType=VARCHAR},
+      film_show_time = #{record.filmShowTime,jdbcType=DATE},
+      film_show_place = #{record.filmShowPlace,jdbcType=VARCHAR},
+      film_timelong = #{record.filmTimelong,jdbcType=VARCHAR},
+      film_end_time = #{record.filmEndTime,jdbcType=TINYINT},
+      film_favorite = #{record.filmFavorite,jdbcType=INTEGER},
+      film_totalcost = #{record.filmTotalcost,jdbcType=INTEGER},
+      film_praise = #{record.filmPraise,jdbcType=DECIMAL},
+      film_praise_star = #{record.filmPraiseStar,jdbcType=TINYINT},
+      film_praise_pepole = #{record.filmPraisePepole,jdbcType=VARCHAR},
+      film_advance = #{record.filmAdvance,jdbcType=VARCHAR},
+      film_attribute = #{record.filmAttribute,jdbcType=VARCHAR},
+      film_cate_keyword = #{record.filmCateKeyword,jdbcType=VARCHAR},
+      film_region_keyword = #{record.filmRegionKeyword,jdbcType=VARCHAR},
+      film_years = #{record.filmYears,jdbcType=CHAR},
+      film_cate_query = #{record.filmCateQuery,jdbcType=VARCHAR},
+      film_enabled = #{record.filmEnabled,jdbcType=TINYINT},
+      film_region_query = #{record.filmRegionQuery,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chris.bean.po.FilmWithBLOBs">
+    update film
+    <set>
+      <if test="filmRealName != null">
+        film_real_name = #{filmRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="filmName != null">
+        film_name = #{filmName,jdbcType=VARCHAR},
+      </if>
+      <if test="filmDesc != null">
+        film_desc = #{filmDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="filmAvat != null">
+        film_avat = #{filmAvat,jdbcType=VARCHAR},
+      </if>
+      <if test="filmImgs != null">
+        film_imgs = #{filmImgs,jdbcType=VARCHAR},
+      </if>
+      <if test="filmShowTime != null">
+        film_show_time = #{filmShowTime,jdbcType=DATE},
+      </if>
+      <if test="filmShowPlace != null">
+        film_show_place = #{filmShowPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="filmTimelong != null">
+        film_timelong = #{filmTimelong,jdbcType=VARCHAR},
+      </if>
+      <if test="filmEndTime != null">
+        film_end_time = #{filmEndTime,jdbcType=TINYINT},
+      </if>
+      <if test="filmFavorite != null">
+        film_favorite = #{filmFavorite,jdbcType=INTEGER},
+      </if>
+      <if test="filmTotalcost != null">
+        film_totalcost = #{filmTotalcost,jdbcType=INTEGER},
+      </if>
+      <if test="filmPraise != null">
+        film_praise = #{filmPraise,jdbcType=DECIMAL},
+      </if>
+      <if test="filmPraiseStar != null">
+        film_praise_star = #{filmPraiseStar,jdbcType=TINYINT},
+      </if>
+      <if test="filmPraisePepole != null">
+        film_praise_pepole = #{filmPraisePepole,jdbcType=VARCHAR},
+      </if>
+      <if test="filmAdvance != null">
+        film_advance = #{filmAdvance,jdbcType=VARCHAR},
+      </if>
+      <if test="filmAttribute != null">
+        film_attribute = #{filmAttribute,jdbcType=VARCHAR},
+      </if>
+      <if test="filmCateKeyword != null">
+        film_cate_keyword = #{filmCateKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="filmRegionKeyword != null">
+        film_region_keyword = #{filmRegionKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="filmYears != null">
+        film_years = #{filmYears,jdbcType=CHAR},
+      </if>
+      <if test="filmCateQuery != null">
+        film_cate_query = #{filmCateQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="filmEnabled != null">
+        film_enabled = #{filmEnabled,jdbcType=TINYINT},
+      </if>
+      <if test="filmRegionQuery != null">
+        film_region_query = #{filmRegionQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="filmActors != null">
+        film_actors = #{filmActors,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="filmAwards != null">
+        film_awards = #{filmAwards,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where film_id = #{filmId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chris.bean.po.FilmWithBLOBs">
+    update film
+    set film_real_name = #{filmRealName,jdbcType=VARCHAR},
+      film_name = #{filmName,jdbcType=VARCHAR},
+      film_desc = #{filmDesc,jdbcType=VARCHAR},
+      film_avat = #{filmAvat,jdbcType=VARCHAR},
+      film_imgs = #{filmImgs,jdbcType=VARCHAR},
+      film_show_time = #{filmShowTime,jdbcType=DATE},
+      film_show_place = #{filmShowPlace,jdbcType=VARCHAR},
+      film_timelong = #{filmTimelong,jdbcType=VARCHAR},
+      film_end_time = #{filmEndTime,jdbcType=TINYINT},
+      film_favorite = #{filmFavorite,jdbcType=INTEGER},
+      film_totalcost = #{filmTotalcost,jdbcType=INTEGER},
+      film_praise = #{filmPraise,jdbcType=DECIMAL},
+      film_praise_star = #{filmPraiseStar,jdbcType=TINYINT},
+      film_praise_pepole = #{filmPraisePepole,jdbcType=VARCHAR},
+      film_advance = #{filmAdvance,jdbcType=VARCHAR},
+      film_attribute = #{filmAttribute,jdbcType=VARCHAR},
+      film_cate_keyword = #{filmCateKeyword,jdbcType=VARCHAR},
+      film_region_keyword = #{filmRegionKeyword,jdbcType=VARCHAR},
+      film_years = #{filmYears,jdbcType=CHAR},
+      film_cate_query = #{filmCateQuery,jdbcType=VARCHAR},
+      film_enabled = #{filmEnabled,jdbcType=TINYINT},
+      film_region_query = #{filmRegionQuery,jdbcType=VARCHAR},
+      film_actors = #{filmActors,jdbcType=LONGVARCHAR},
+      film_awards = #{filmAwards,jdbcType=LONGVARCHAR}
+    where film_id = #{filmId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chris.bean.po.Film">
+    update film
+    set film_real_name = #{filmRealName,jdbcType=VARCHAR},
+      film_name = #{filmName,jdbcType=VARCHAR},
+      film_desc = #{filmDesc,jdbcType=VARCHAR},
+      film_avat = #{filmAvat,jdbcType=VARCHAR},
+      film_imgs = #{filmImgs,jdbcType=VARCHAR},
+      film_show_time = #{filmShowTime,jdbcType=DATE},
+      film_show_place = #{filmShowPlace,jdbcType=VARCHAR},
+      film_timelong = #{filmTimelong,jdbcType=VARCHAR},
+      film_end_time = #{filmEndTime,jdbcType=TINYINT},
+      film_favorite = #{filmFavorite,jdbcType=INTEGER},
+      film_totalcost = #{filmTotalcost,jdbcType=INTEGER},
+      film_praise = #{filmPraise,jdbcType=DECIMAL},
+      film_praise_star = #{filmPraiseStar,jdbcType=TINYINT},
+      film_praise_pepole = #{filmPraisePepole,jdbcType=VARCHAR},
+      film_advance = #{filmAdvance,jdbcType=VARCHAR},
+      film_attribute = #{filmAttribute,jdbcType=VARCHAR},
+      film_cate_keyword = #{filmCateKeyword,jdbcType=VARCHAR},
+      film_region_keyword = #{filmRegionKeyword,jdbcType=VARCHAR},
+      film_years = #{filmYears,jdbcType=CHAR},
+      film_cate_query = #{filmCateQuery,jdbcType=VARCHAR},
+      film_enabled = #{filmEnabled,jdbcType=TINYINT},
+      film_region_query = #{filmRegionQuery,jdbcType=VARCHAR}
+    where film_id = #{filmId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.mapper.WatchTimesMapper">
+  <resultMap id="BaseResultMap" type="com.chris.bean.po.WatchTimes">
+    <id column="wt_id" jdbcType="VARCHAR" property="wtId" />
+    <result column="wt_begintime" jdbcType="VARCHAR" property="wtBegintime" />
+    <result column="wt_endtime" jdbcType="VARCHAR" property="wtEndtime" />
+    <result column="wt_version" jdbcType="VARCHAR" property="wtVersion" />
+    <result column="wt_cost" jdbcType="DECIMAL" property="wtCost" />
+    <result column="wt_maxsel" jdbcType="TINYINT" property="wtMaxsel" />
+    <result column="film_id" jdbcType="INTEGER" property="filmId" />
+    <result column="wd_date" jdbcType="VARCHAR" property="wdDate" />
+    <result column="cma_id" jdbcType="INTEGER" property="cmaId" />
+    <result column="wt_halls" jdbcType="VARCHAR" property="wtHalls" />
+    <result column="wt_enable" jdbcType="TINYINT" property="wtEnable" />
+    <result column="wt_url" jdbcType="VARCHAR" property="wtUrl" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.chris.bean.po.WatchTimes">
+    <result column="wt_cost_sites" jdbcType="LONGVARCHAR" property="wtCostSites" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    wt_id, wt_begintime, wt_endtime, wt_version, wt_cost, wt_maxsel, film_id, wd_date, 
+    cma_id, wt_halls, wt_enable, wt_url
+  </sql>
+  <sql id="Blob_Column_List">
+    wt_cost_sites
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.chris.bean.po.WatchTimesExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from watch_times
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.chris.bean.po.WatchTimesExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from watch_times
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from watch_times
+    where wt_id = #{wtId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from watch_times
+    where wt_id = #{wtId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chris.bean.po.WatchTimesExample">
+    delete from watch_times
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chris.bean.po.WatchTimes">
+    insert into watch_times (wt_id, wt_begintime, wt_endtime, 
+      wt_version, wt_cost, wt_maxsel, 
+      film_id, wd_date, cma_id, 
+      wt_halls, wt_enable, wt_url, 
+      wt_cost_sites)
+    values (#{wtId,jdbcType=VARCHAR}, #{wtBegintime,jdbcType=VARCHAR}, #{wtEndtime,jdbcType=VARCHAR}, 
+      #{wtVersion,jdbcType=VARCHAR}, #{wtCost,jdbcType=DECIMAL}, #{wtMaxsel,jdbcType=TINYINT}, 
+      #{filmId,jdbcType=INTEGER}, #{wdDate,jdbcType=VARCHAR}, #{cmaId,jdbcType=INTEGER}, 
+      #{wtHalls,jdbcType=VARCHAR}, #{wtEnable,jdbcType=TINYINT}, #{wtUrl,jdbcType=VARCHAR}, 
+      #{wtCostSites,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chris.bean.po.WatchTimes">
+    insert into watch_times
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wtId != null">
+        wt_id,
+      </if>
+      <if test="wtBegintime != null">
+        wt_begintime,
+      </if>
+      <if test="wtEndtime != null">
+        wt_endtime,
+      </if>
+      <if test="wtVersion != null">
+        wt_version,
+      </if>
+      <if test="wtCost != null">
+        wt_cost,
+      </if>
+      <if test="wtMaxsel != null">
+        wt_maxsel,
+      </if>
+      <if test="filmId != null">
+        film_id,
+      </if>
+      <if test="wdDate != null">
+        wd_date,
+      </if>
+      <if test="cmaId != null">
+        cma_id,
+      </if>
+      <if test="wtHalls != null">
+        wt_halls,
+      </if>
+      <if test="wtEnable != null">
+        wt_enable,
+      </if>
+      <if test="wtUrl != null">
+        wt_url,
+      </if>
+      <if test="wtCostSites != null">
+        wt_cost_sites,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wtId != null">
+        #{wtId,jdbcType=VARCHAR},
+      </if>
+      <if test="wtBegintime != null">
+        #{wtBegintime,jdbcType=VARCHAR},
+      </if>
+      <if test="wtEndtime != null">
+        #{wtEndtime,jdbcType=VARCHAR},
+      </if>
+      <if test="wtVersion != null">
+        #{wtVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="wtCost != null">
+        #{wtCost,jdbcType=DECIMAL},
+      </if>
+      <if test="wtMaxsel != null">
+        #{wtMaxsel,jdbcType=TINYINT},
+      </if>
+      <if test="filmId != null">
+        #{filmId,jdbcType=INTEGER},
+      </if>
+      <if test="wdDate != null">
+        #{wdDate,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaId != null">
+        #{cmaId,jdbcType=INTEGER},
+      </if>
+      <if test="wtHalls != null">
+        #{wtHalls,jdbcType=VARCHAR},
+      </if>
+      <if test="wtEnable != null">
+        #{wtEnable,jdbcType=TINYINT},
+      </if>
+      <if test="wtUrl != null">
+        #{wtUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wtCostSites != null">
+        #{wtCostSites,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chris.bean.po.WatchTimesExample" resultType="java.lang.Long">
+    select count(*) from watch_times
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <select id="selectWathcDateList" resultType="java.lang.String">
+    select distinct wd_date
+    from watch_times
+    where cma_id = #{cinema_id}
+    and film_id = #{film_id}
+  </select>
+
+
+  <select id="selectList" resultMap="BaseResultMap">
+    select *
+    from watch_times
+    where cma_id = #{cinema_id}
+    and film_id = #{film_id}
+    and wd_date = #{watch_date}
+    and wt_enable =1
+    <!-- 默认只展现已经启用的-->
+  </select>
+
+
+  <update id="updateByExampleSelective" parameterType="map">
+    update watch_times
+    <set>
+      <if test="record.wtId != null">
+        wt_id = #{record.wtId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wtBegintime != null">
+        wt_begintime = #{record.wtBegintime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wtEndtime != null">
+        wt_endtime = #{record.wtEndtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wtVersion != null">
+        wt_version = #{record.wtVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wtCost != null">
+        wt_cost = #{record.wtCost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.wtMaxsel != null">
+        wt_maxsel = #{record.wtMaxsel,jdbcType=TINYINT},
+      </if>
+      <if test="record.filmId != null">
+        film_id = #{record.filmId,jdbcType=INTEGER},
+      </if>
+      <if test="record.wdDate != null">
+        wd_date = #{record.wdDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmaId != null">
+        cma_id = #{record.cmaId,jdbcType=INTEGER},
+      </if>
+      <if test="record.wtHalls != null">
+        wt_halls = #{record.wtHalls,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wtEnable != null">
+        wt_enable = #{record.wtEnable,jdbcType=TINYINT},
+      </if>
+      <if test="record.wtUrl != null">
+        wt_url = #{record.wtUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wtCostSites != null">
+        wt_cost_sites = #{record.wtCostSites,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update watch_times
+    set wt_id = #{record.wtId,jdbcType=VARCHAR},
+      wt_begintime = #{record.wtBegintime,jdbcType=VARCHAR},
+      wt_endtime = #{record.wtEndtime,jdbcType=VARCHAR},
+      wt_version = #{record.wtVersion,jdbcType=VARCHAR},
+      wt_cost = #{record.wtCost,jdbcType=DECIMAL},
+      wt_maxsel = #{record.wtMaxsel,jdbcType=TINYINT},
+      film_id = #{record.filmId,jdbcType=INTEGER},
+      wd_date = #{record.wdDate,jdbcType=VARCHAR},
+      cma_id = #{record.cmaId,jdbcType=INTEGER},
+      wt_halls = #{record.wtHalls,jdbcType=VARCHAR},
+      wt_enable = #{record.wtEnable,jdbcType=TINYINT},
+      wt_url = #{record.wtUrl,jdbcType=VARCHAR},
+      wt_cost_sites = #{record.wtCostSites,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update watch_times
+    set wt_id = #{record.wtId,jdbcType=VARCHAR},
+      wt_begintime = #{record.wtBegintime,jdbcType=VARCHAR},
+      wt_endtime = #{record.wtEndtime,jdbcType=VARCHAR},
+      wt_version = #{record.wtVersion,jdbcType=VARCHAR},
+      wt_cost = #{record.wtCost,jdbcType=DECIMAL},
+      wt_maxsel = #{record.wtMaxsel,jdbcType=TINYINT},
+      film_id = #{record.filmId,jdbcType=INTEGER},
+      wd_date = #{record.wdDate,jdbcType=VARCHAR},
+      cma_id = #{record.cmaId,jdbcType=INTEGER},
+      wt_halls = #{record.wtHalls,jdbcType=VARCHAR},
+      wt_enable = #{record.wtEnable,jdbcType=TINYINT},
+      wt_url = #{record.wtUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chris.bean.po.WatchTimes">
+    update watch_times
+    <set>
+      <if test="wtBegintime != null">
+        wt_begintime = #{wtBegintime,jdbcType=VARCHAR},
+      </if>
+      <if test="wtEndtime != null">
+        wt_endtime = #{wtEndtime,jdbcType=VARCHAR},
+      </if>
+      <if test="wtVersion != null">
+        wt_version = #{wtVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="wtCost != null">
+        wt_cost = #{wtCost,jdbcType=DECIMAL},
+      </if>
+      <if test="wtMaxsel != null">
+        wt_maxsel = #{wtMaxsel,jdbcType=TINYINT},
+      </if>
+      <if test="filmId != null">
+        film_id = #{filmId,jdbcType=INTEGER},
+      </if>
+      <if test="wdDate != null">
+        wd_date = #{wdDate,jdbcType=VARCHAR},
+      </if>
+      <if test="cmaId != null">
+        cma_id = #{cmaId,jdbcType=INTEGER},
+      </if>
+      <if test="wtHalls != null">
+        wt_halls = #{wtHalls,jdbcType=VARCHAR},
+      </if>
+      <if test="wtEnable != null">
+        wt_enable = #{wtEnable,jdbcType=TINYINT},
+      </if>
+      <if test="wtUrl != null">
+        wt_url = #{wtUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wtCostSites != null">
+        wt_cost_sites = #{wtCostSites,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where wt_id = #{wtId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chris.bean.po.WatchTimes">
+    update watch_times
+    set wt_begintime = #{wtBegintime,jdbcType=VARCHAR},
+      wt_endtime = #{wtEndtime,jdbcType=VARCHAR},
+      wt_version = #{wtVersion,jdbcType=VARCHAR},
+      wt_cost = #{wtCost,jdbcType=DECIMAL},
+      wt_maxsel = #{wtMaxsel,jdbcType=TINYINT},
+      film_id = #{filmId,jdbcType=INTEGER},
+      wd_date = #{wdDate,jdbcType=VARCHAR},
+      cma_id = #{cmaId,jdbcType=INTEGER},
+      wt_halls = #{wtHalls,jdbcType=VARCHAR},
+      wt_enable = #{wtEnable,jdbcType=TINYINT},
+      wt_url = #{wtUrl,jdbcType=VARCHAR},
+      wt_cost_sites = #{wtCostSites,jdbcType=LONGVARCHAR}
+    where wt_id = #{wtId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chris.bean.po.WatchTimes">
+    update watch_times
+    set wt_begintime = #{wtBegintime,jdbcType=VARCHAR},
+      wt_endtime = #{wtEndtime,jdbcType=VARCHAR},
+      wt_version = #{wtVersion,jdbcType=VARCHAR},
+      wt_cost = #{wtCost,jdbcType=DECIMAL},
+      wt_maxsel = #{wtMaxsel,jdbcType=TINYINT},
+      film_id = #{filmId,jdbcType=INTEGER},
+      wd_date = #{wdDate,jdbcType=VARCHAR},
+      cma_id = #{cmaId,jdbcType=INTEGER},
+      wt_halls = #{wtHalls,jdbcType=VARCHAR},
+      wt_enable = #{wtEnable,jdbcType=TINYINT},
+      wt_url = #{wtUrl,jdbcType=VARCHAR}
+    where wt_id = #{wtId,jdbcType=VARCHAR}
+  </update>
+</mapper>
